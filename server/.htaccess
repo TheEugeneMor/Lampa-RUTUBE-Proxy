@@ -10,7 +10,6 @@ Options -Indexes
     RewriteEngine On
 
     RewriteRule ^rt\.js$ plugin.php [L,QSA]
-    RewriteRule ^rutube-cors\.js$ plugin.php [L,QSA]
     RewriteRule ^hls-proxy\.m3u8$ hls.php [L,QSA]
     RewriteRule ^$ status.php [L,QSA]
 </IfModule>

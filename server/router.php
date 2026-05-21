@@ -6,7 +6,6 @@ $path = '/' . ltrim((string)$path, '/');
 
 $routes = [
     '/rt.js' => __DIR__ . '/plugin.php',
-    '/rutube-cors.js' => __DIR__ . '/plugin.php',
     '/plugin.js' => __DIR__ . '/plugin.php',
     '/proxy.php' => __DIR__ . '/proxy.php',
     '/stream.php' => __DIR__ . '/stream.php',

@@ -30,7 +30,6 @@ https://your-domain.example/plugin.php
 Для Apache уже есть `.htaccess`. Он делает:
 
 - `/rt.js` -> `plugin.php`
-- `/rutube-cors.js` -> `plugin.php` старый совместимый адрес
 - `/hls-proxy.m3u8` -> `hls.php`
 - `/` -> `status.php`
 
