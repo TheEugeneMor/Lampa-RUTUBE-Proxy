@@ -1,0 +1,15 @@
+Options -Indexes
+
+<IfModule mod_headers.c>
+    Header always set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Allow-Methods "GET, OPTIONS"
+    Header always set Access-Control-Allow-Headers "Content-Type, Range"
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteRule ^rutube-cors\.js$ plugin.php [L,QSA]
+    RewriteRule ^hls-proxy\.m3u8$ hls.php [L,QSA]
+    RewriteRule ^$ status.php [L,QSA]
+</IfModule>
