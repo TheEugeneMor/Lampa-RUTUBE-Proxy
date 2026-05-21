@@ -57,7 +57,7 @@ echo.
 echo Запускаю сервер...
 echo.
 echo Адрес для добавления в Lampa:
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$ips = @(Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.IPAddress -notlike '127.*' -and $_.PrefixOrigin -ne 'WellKnown' } | Select-Object -ExpandProperty IPAddress); if ($ips.Count) { $ips | ForEach-Object { '  http://' + $_ + ':%PORT%/rutube-cors.js' } } else { '  Не удалось найти локальный IP. Проверьте подключение к сети.' }"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$ips = @(Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.IPAddress -notlike '127.*' -and $_.PrefixOrigin -ne 'WellKnown' } | Select-Object -ExpandProperty IPAddress); if ($ips.Count) { $ips | ForEach-Object { '  http://' + $_ + ':%PORT%/rt.js' } } else { '  Не удалось найти локальный IP. Проверьте подключение к сети.' }"
 echo.
 echo Что делать дальше:
 echo 1. Откройте Lampa.

@@ -16,7 +16,7 @@
 После размещения папки добавьте в Lampa:
 
 ```text
-https://your-domain.example/rutube-cors.js
+https://your-domain.example/rt.js
 ```
 
 Если rewrite-правила не настроены, можно использовать прямой PHP URL:
@@ -29,7 +29,8 @@ https://your-domain.example/plugin.php
 
 Для Apache уже есть `.htaccess`. Он делает:
 
-- `/rutube-cors.js` -> `plugin.php`
+- `/rt.js` -> `plugin.php`
+- `/rutube-cors.js` -> `plugin.php` старый совместимый адрес
 - `/hls-proxy.m3u8` -> `hls.php`
 - `/` -> `status.php`
 

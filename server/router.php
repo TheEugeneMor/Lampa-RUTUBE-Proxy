@@ -5,6 +5,7 @@ $path = parse_url((string)($_SERVER['REQUEST_URI'] ?? '/'), PHP_URL_PATH);
 $path = '/' . ltrim((string)$path, '/');
 
 $routes = [
+    '/rt.js' => __DIR__ . '/plugin.php',
     '/rutube-cors.js' => __DIR__ . '/plugin.php',
     '/plugin.js' => __DIR__ . '/plugin.php',
     '/proxy.php' => __DIR__ . '/proxy.php',
