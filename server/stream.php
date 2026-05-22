@@ -93,11 +93,7 @@ function public_hls_url(string $stream): string
 {
     $encoded = rawurlencode(base64url_encode_string($stream));
 
-    if (defined('LAMPA_ROUTE_ENTRY')) {
-        return public_base_url() . 'index.php?route=hls&url=' . $encoded;
-    }
-
-    return public_base_url() . 'hls.php?url=' . $encoded;
+    return public_base_url() . 'hls.php?playlist=stream.m3u8&url=' . $encoded;
 }
 
 $url = 'https://rutube.ru/api/play/options/' . rawurlencode($id) . '/?format=json';
@@ -129,7 +125,7 @@ if (!$allowed || $stream === '') {
 echo json_encode([
     'ok' => true,
     'id' => $id,
-    'url' => $stream,
-    'proxy_url' => public_hls_url($stream),
+    'url' => public_hls_url($stream),
+    'source_url' => $stream,
     'type' => 'hls',
 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);

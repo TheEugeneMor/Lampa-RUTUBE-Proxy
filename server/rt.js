@@ -36,8 +36,8 @@
         }
 
         var baseUrl = pluginBaseUrl();
-        var apiUrl = baseUrl + 'index.php?route=proxy';
-        var streamUrl = baseUrl + 'index.php?route=stream';
+        var apiUrl = baseUrl + 'proxy.php';
+        var streamUrl = baseUrl + 'stream.php';
 
         Lampa.Lang.add({
             lapma_rutube_watch: {
@@ -233,7 +233,7 @@
         }
 
         function request(query, page, success, failure) {
-            var url = apiUrl + '&q=' + encodeURIComponent(query) + '&page=' + encodeURIComponent(page || 1);
+            var url = apiUrl + '?q=' + encodeURIComponent(query) + '&page=' + encodeURIComponent(page || 1);
 
             $.ajax({
                 url: url,
@@ -318,7 +318,7 @@
             if (Lampa.Noty) Lampa.Noty.show('Запускаю встроенный плеер...');
 
             $.ajax({
-                url: streamUrl + '&id=' + encodeURIComponent(item.id),
+                url: streamUrl + '?id=' + encodeURIComponent(item.id),
                 dataType: 'json',
                 timeout: 20000,
                 success: function (data) {

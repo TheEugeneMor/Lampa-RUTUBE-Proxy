@@ -147,12 +147,11 @@ function fetch_hls_url(string $url): array
 function proxied_url(string $url): string
 {
     $encoded = rawurlencode(base64url_encode_string($url));
+    $marker = stripos((string)parse_url($url, PHP_URL_PATH), '.m3u8') !== false
+        ? 'playlist=stream.m3u8'
+        : 'segment=chunk.ts';
 
-    if (defined('LAMPA_ROUTE_ENTRY')) {
-        return public_base_url() . 'index.php?route=hls&url=' . $encoded;
-    }
-
-    return public_base_url() . 'hls.php?url=' . $encoded;
+    return public_base_url() . 'hls.php?' . $marker . '&url=' . $encoded;
 }
 
 function rewrite_playlist(string $body, string $baseUrl): string
