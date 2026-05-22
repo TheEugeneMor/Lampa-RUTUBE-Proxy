@@ -110,7 +110,7 @@ done < <(ifconfig 2>/dev/null | awk '/inet / && $2 !~ /^127\./ { print $2 }' | s
 
 if [ "${#ips[@]}" -gt 0 ]; then
     for ip in "${ips[@]}"; do
-        echo "  http://$ip:$PORT/plugin.php"
+        echo "  http://$ip:$PORT/rt.php"
     done
 else
     echo "  Не удалось найти локальный IP. Проверьте подключение к сети."

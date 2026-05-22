@@ -5,7 +5,7 @@ $path = parse_url((string)($_SERVER['REQUEST_URI'] ?? '/'), PHP_URL_PATH);
 $path = '/' . ltrim((string)$path, '/');
 
 $routes = [
-    '/plugin.php' => __DIR__ . '/plugin.php',
+    '/rt.php' => __DIR__ . '/rt.php',
     '/proxy.php' => __DIR__ . '/proxy.php',
     '/stream.php' => __DIR__ . '/stream.php',
     '/hls.php' => __DIR__ . '/hls.php',
