@@ -4,7 +4,7 @@
 
 Самостоятельный экземпляр плагина для Lampa. После запуска на компьютере поднимается веб-сервер, Lampa подключает плагин по URL, а поиск RUTUBE и HLS-видео идут через сеть этого компьютера.
 
-Папка `server` отделена как серверная часть. Ее можно положить на виртуалку или хостинг, где уже есть веб-сервер с PHP, и подключить плагин оттуда без `start.bat`.
+Папка `server` отделена как серверная часть. Ее можно положить на виртуалку или хостинг, где уже есть веб-сервер с PHP, и подключить плагин оттуда без локальных запускателей.
 
 ## Зачем нужен свой сервер
 
@@ -14,13 +14,15 @@ Lampa сама по себе не всегда может напрямую по�
 
 ## Быстрый запуск
 
+### Windows
+
 1. Запустите:
 
    ```bat
-   start.bat
+   launchers\windows\start.bat
    ```
 
-   Если PHP не найден, батник сам скачает официальный portable PHP для Windows в папку `php` рядом с проектом и включит нужные расширения. Если на Windows нет Microsoft Visual C++ Redistributable x64, он тоже будет установлен автоматически.
+   Если PHP не найден, батник сам скачает официальный portable PHP для Windows в папку `launchers\windows\php` и включит нужные расширения. Если на Windows нет Microsoft Visual C++ Redistributable x64, он тоже будет установлен автоматически.
 
 2. В открывшемся окне будут показаны адреса вида:
 
@@ -31,6 +33,54 @@ Lampa сама по себе не всегда может напрямую по�
 3. В Lampa добавьте URL с IP компьютера, который доступен устройству с Lampa. Обычно для телевизора или приставки в той же сети нужен адрес `http://192.168.x.x:8787/rt.js`.
 
 Окно `start.bat` должно оставаться открытым, пока вы смотрите видео.
+
+Чтобы удалить PHP, установленный запускателем Windows, запустите:
+
+```bat
+launchers\uninstallers\windows\uninstall-php.bat
+```
+
+Он удаляет только папку `launchers\windows\php`. Системный PHP и Microsoft Visual C++ Redistributable не трогаются.
+
+### macOS
+
+1. Запустите двойным кликом файл:
+
+   ```text
+   launchers/macos/start.command
+   ```
+
+   Или из Терминала:
+
+   ```bash
+   ./launchers/macos/start.command
+   ```
+
+   Если PHP 8.1+ не найден, запускатель сам установит PHP через Homebrew. Если Homebrew не установлен, будет запущен официальный установщик Homebrew.
+
+2. В открывшемся окне будут показаны адреса вида:
+
+   ```text
+   http://192.168.1.25:8787/rt.js
+   ```
+
+Окно `start.command` должно оставаться открытым, пока вы смотрите видео.
+
+Чтобы удалить PHP, установленный macOS-запускателем, запустите:
+
+```bash
+./launchers/uninstallers/macos/uninstall-php.command
+```
+
+Деинсталлятор удаляет PHP только если этот проект сам установил его через Homebrew. Если PHP уже был установлен до запуска проекта, он не удаляется.
+
+Чтобы удалить Homebrew, установленный macOS-запускателем, запустите:
+
+```bash
+./launchers/uninstallers/macos/uninstall-homebrew.command
+```
+
+Он запускает официальный деинсталлятор Homebrew и перед удалением спрашивает подтверждение. Если Homebrew был установлен не этим проектом, скрипт предупредит об этом.
 
 ## Внешний доступ
 
@@ -69,8 +119,13 @@ https://your-domain.example/plugin.php
 ## Файлы
 
 - `server/` - переносимая серверная часть для виртуалки или хостинга с PHP.
-- `start.bat` - устанавливает недостающий portable PHP и запускает локальный сервер на `0.0.0.0:8787`, используя папку `server`.
-- `setup-php.ps1` - вспомогательный установщик portable PHP и Microsoft Visual C++ Redistributable x64 для Windows.
+- `launchers/windows/start.bat` - устанавливает недостающий portable PHP и запускает локальный сервер на `0.0.0.0:8787`, используя папку `server`.
+- `launchers/windows/setup-php.ps1` - вспомогательный установщик portable PHP и Microsoft Visual C++ Redistributable x64 для Windows.
+- `launchers/macos/start.command` - запускает локальный сервер на macOS и при необходимости устанавливает PHP через Homebrew.
+- `launchers/macos/setup-php.command` - вспомогательный установщик PHP для macOS.
+- `launchers/uninstallers/windows/uninstall-php.bat` - удаляет локальный portable PHP для Windows.
+- `launchers/uninstallers/macos/uninstall-php.command` - удаляет PHP, если он был установлен macOS-запускателем.
+- `launchers/uninstallers/macos/uninstall-homebrew.command` - запускает официальный деинсталлятор Homebrew.
 - `server/router.php` - маршрутизирует красивые URL при локальном запуске.
 - `server/status.php` - стартовая страница с адресом для Lampa.
 - `server/plugin.php` - отдает JavaScript-плагин с CORS-заголовками.
@@ -89,4 +144,4 @@ https://your-domain.example/plugin.php
 http://192.168.x.x:8787/
 ```
 
-Вместо `192.168.x.x` используйте IP, который показал `start.bat`. Если страница открылась, сервер работает. Если устройство с Lampa не видит URL по локальному IP, проверьте брандмауэр Windows и доступность порта `8787`.
+Вместо `192.168.x.x` используйте IP, который показал запускатель. Если страница открылась, сервер работает. Если устройство с Lampa не видит URL по локальному IP, проверьте брандмауэр или настройки безопасности системы и доступность порта `8787`.

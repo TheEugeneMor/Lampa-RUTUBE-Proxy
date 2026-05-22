@@ -1,12 +1,12 @@
-﻿$ErrorActionPreference = 'Stop'
+$ErrorActionPreference = 'Stop'
 
 Write-Host 'Lampa RUTUBE Proxy'
 Write-Host 'Автор: Eugene Pchelnikov'
 Write-Host 'Связь в Telegram: https://t.me/eugenemor'
 Write-Host ''
 
-$root = Split-Path -Parent $MyInvocation.MyCommand.Path
-$phpDir = Join-Path $root 'php'
+$launcherDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$phpDir = Join-Path $launcherDir 'php'
 $zipPath = Join-Path $env:TEMP 'lampa-rutube-php.zip'
 $vcRedistPath = Join-Path $env:TEMP 'lampa-rutube-vc-redist-x64.exe'
 

@@ -1,4 +1,6 @@
 php/
+launchers/windows/php/
+launchers/macos/.state/
 *.log
 .DS_Store
 Thumbs.db
