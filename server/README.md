@@ -26,6 +26,16 @@ https://your-domain.example/rt.js
 Для Apache уже есть `.htaccess`. Он делает:
 
 - `/` -> `status.php`
+- отсутствующие пути -> `router.php`
+
+Если главная страница открывается, а в Lampa в статусе 404, проверьте напрямую:
+
+```text
+https://your-domain.example/proxy.php?q=test
+https://your-domain.example/stream.php?id=test
+```
+
+Первый адрес должен вернуть JSON. Второй должен вернуть JSON с ошибкой `Invalid video id` и HTTP 400. Если один из этих адресов отдает обычную страницу 404 хостинга, значит на сайте не включен PHP для этой папки или Apache не применяет `.htaccess`.
 
 ## nginx
 

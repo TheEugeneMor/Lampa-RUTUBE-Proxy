@@ -1,4 +1,5 @@
-Options -Indexes
+Options -Indexes -MultiViews
+DirectoryIndex status.php
 
 <IfModule mod_headers.c>
     Header always set Access-Control-Allow-Origin "*"
@@ -10,4 +11,7 @@ Options -Indexes
     RewriteEngine On
 
     RewriteRule ^$ status.php [L,QSA]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ router.php [L,QSA]
 </IfModule>
