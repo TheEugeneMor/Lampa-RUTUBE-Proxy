@@ -124,9 +124,9 @@ Write-Host 'Чтобы остановить сервер, закройте ок�
 Write-Host
 
 if ($phpIni -and (Test-Path $phpIni)) {
-    & $phpExe -c $phpIni -S "0.0.0.0:$port" -t $serverDir (Join-Path $serverDir 'router.php')
+    & $phpExe -c $phpIni -S "0.0.0.0:$port" -t $serverDir (Join-Path $serverDir 'router.php') 2>$null
 } else {
-    & $phpExe -S "0.0.0.0:$port" -t $serverDir (Join-Path $serverDir 'router.php')
+    & $phpExe -S "0.0.0.0:$port" -t $serverDir (Join-Path $serverDir 'router.php') 2>$null
 }
 
 Write-Host
