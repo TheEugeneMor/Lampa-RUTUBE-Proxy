@@ -8,6 +8,7 @@ set "SERVER_DIR=%PROJECT_ROOT%\server"
 set "PORT=8787"
 set "PHP_EXE="
 set "PHP_INI="
+set "PHP_VERSION_ID="
 
 cd /d "%PROJECT_ROOT%"
 
@@ -40,6 +41,32 @@ if not defined PHP_EXE (
     exit /b 1
 )
 
+call :check_php
+if errorlevel 1 (
+    echo Найденный PHP не подходит. Устанавливаю portable PHP в папку launchers\windows\php...
+    echo.
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%SCRIPT_DIR%setup-php.ps1"
+    if errorlevel 1 (
+        echo.
+        echo Не удалось установить portable PHP.
+        echo.
+        pause
+        exit /b 1
+    )
+
+    set "PHP_EXE="
+    set "PHP_INI="
+    call :find_php
+    call :check_php
+    if errorlevel 1 (
+        echo.
+        echo PHP 8.1 или новее не найден.
+        echo.
+        pause
+        exit /b 1
+    )
+)
+
 goto :start_server
 
 :find_php
@@ -53,6 +80,12 @@ if exist "%SCRIPT_DIR%php\php.exe" (
 )
 exit /b 0
 
+:check_php
+for /f "delims=" %%V in ('"%PHP_EXE%" -r "echo PHP_VERSION_ID;" 2^>nul') do set "PHP_VERSION_ID=%%V"
+if not defined PHP_VERSION_ID exit /b 1
+if %PHP_VERSION_ID% LSS 80100 exit /b 1
+exit /b 0
+
 :start_server
 echo Lampa RUTUBE Proxy
 echo Автор: Eugene Pchelnikov
@@ -60,6 +93,17 @@ echo Связь в Telegram: https://t.me/eugenemor
 echo.
 echo PHP: %PHP_EXE%
 echo.
+
+"%PHP_EXE%" -m 2>nul | findstr /I /X "curl" >nul
+if errorlevel 1 (
+    echo Предупреждение: расширение PHP curl не найдено.
+)
+"%PHP_EXE%" -m 2>nul | findstr /I /X "openssl" >nul
+if errorlevel 1 (
+    echo Предупреждение: расширение PHP openssl не найдено.
+)
+echo.
+
 echo Запускаю сервер...
 echo.
 echo URL для подключения в Lampa:
@@ -77,9 +121,13 @@ echo Чтобы остановить сервер, закройте окно и�
 echo.
 
 if defined PHP_INI (
-    "%PHP_EXE%" -c "%PHP_INI%" -S 0.0.0.0:%PORT% -t "%SERVER_DIR%" "%SERVER_DIR%\router.php" 2>nul
+    "%PHP_EXE%" -c "%PHP_INI%" -S 0.0.0.0:%PORT% -t "%SERVER_DIR%" "%SERVER_DIR%\router.php"
 ) else (
-    "%PHP_EXE%" -S 0.0.0.0:%PORT% -t "%SERVER_DIR%" "%SERVER_DIR%\router.php" 2>nul
+    "%PHP_EXE%" -S 0.0.0.0:%PORT% -t "%SERVER_DIR%" "%SERVER_DIR%\router.php"
 )
 
+echo.
+echo Сервер остановился. Если это произошло сразу, проверьте сообщение об ошибке выше.
+echo Частая причина: порт %PORT% уже занят другой программой.
+echo.
 pause
