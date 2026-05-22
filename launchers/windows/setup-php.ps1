@@ -1,4 +1,4 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 
 Write-Host 'Lampa RUTUBE Proxy'
 Write-Host 'Автор: Eugene Pchelnikov'
@@ -24,26 +24,26 @@ function Ensure-VcRuntime {
         return
     }
 
-    Write-Host 'Installing Microsoft Visual C++ Redistributable x64...'
+    Write-Host 'Устанавливаю Microsoft Visual C++ Redistributable x64...'
     Invoke-WebRequest -UseBasicParsing -Uri 'https://aka.ms/vs/17/release/vc_redist.x64.exe' -OutFile $vcRedistPath
     $process = Start-Process -FilePath $vcRedistPath -ArgumentList '/install', '/quiet', '/norestart' -Wait -PassThru
 
     if ($process.ExitCode -ne 0 -and $process.ExitCode -ne 3010) {
-        throw "Visual C++ Redistributable installer failed with exit code $($process.ExitCode)."
+        throw "Установщик Visual C++ Redistributable завершился с кодом $($process.ExitCode)."
     }
 
     Remove-Item -LiteralPath $vcRedistPath -Force -ErrorAction SilentlyContinue
 }
 
 if (Test-Path (Join-Path $phpDir 'php.exe')) {
-    Write-Host "Portable PHP is already installed: $phpDir"
+    Write-Host "Portable PHP уже установлен: $phpDir"
     Ensure-VcRuntime
     exit 0
 }
 
 Ensure-VcRuntime
 
-Write-Host 'Finding the latest official PHP for Windows package...'
+Write-Host 'Ищу последний официальный пакет PHP для Windows...'
 $downloadPage = Invoke-WebRequest -UseBasicParsing -Uri 'https://windows.php.net/download/'
 $matches = [regex]::Matches($downloadPage.Content, 'href="([^"]*php-8\.\d+\.\d+-nts-Win32-vs17-x64\.zip)"')
 $zipUrl = $matches |
@@ -51,7 +51,7 @@ $zipUrl = $matches |
     Select-Object -First 1
 
 if (-not $zipUrl) {
-    throw 'Could not find a PHP x64 NTS ZIP link on windows.php.net.'
+    throw 'Не удалось найти ссылку на PHP x64 NTS ZIP на windows.php.net.'
 }
 
 if ($zipUrl -like '//*') {
@@ -60,7 +60,7 @@ if ($zipUrl -like '//*') {
     $zipUrl = 'https://windows.php.net' + $zipUrl
 }
 
-Write-Host "Downloading $zipUrl"
+Write-Host "Скачиваю $zipUrl"
 Invoke-WebRequest -UseBasicParsing -Uri $zipUrl -OutFile $zipPath
 
 if (Test-Path $phpDir) {
@@ -86,7 +86,7 @@ Set-Content -LiteralPath (Join-Path $phpDir 'php.ini') -Value $ini -Encoding ASC
 & (Join-Path $phpDir 'php.exe') -c (Join-Path $phpDir 'php.ini') -v | Out-Null
 
 if ($LASTEXITCODE -ne 0) {
-    throw "Portable PHP was installed, but php.exe failed to start with exit code $LASTEXITCODE."
+    throw "Portable PHP установлен, но php.exe не запустился. Код: $LASTEXITCODE."
 }
 
-Write-Host "Portable PHP installed: $phpDir"
+Write-Host "Portable PHP установлен: $phpDir"
