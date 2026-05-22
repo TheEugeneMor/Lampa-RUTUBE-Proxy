@@ -19,7 +19,7 @@ function status_base_url(): string
 }
 
 $baseUrl = status_base_url();
-$pluginUrl = $baseUrl . 'rt.js';
+$pluginUrl = $baseUrl . 'plugin.php';
 
 header('Content-Type: text/html; charset=utf-8');
 header('Access-Control-Allow-Origin: *');

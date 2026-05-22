@@ -25,7 +25,7 @@
                 for (var i = scripts.length - 1; i >= 0; i--) {
                     var src = scripts[i].src || '';
 
-                    if (/\/rt\.js(?:[?#].*)?$/.test(src)) {
+                    if (/\/(?:rt\.js|plugin\.php)(?:[?#].*)?$/.test(src)) {
                         current = src;
                         break;
                     }

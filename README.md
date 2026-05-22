@@ -13,7 +13,7 @@ RUTUBE сейчас содержит много фильмов, сериалов
 Проще говоря:
 
 1. Вы запускаете этот проект на компьютере.
-2. Он показывает ссылку вида `http://192.168.x.x:8787/rt.js`.
+2. Он показывает ссылку вида `http://192.168.x.x:8787/plugin.php`.
 3. Вы добавляете эту ссылку в Lampa.
 4. Пока окно запускателя открыто, Lampa может ходить к RUTUBE через ваш компьютер.
 
@@ -34,7 +34,7 @@ launchers\windows\start.bat
 После запуска в окне появятся адреса для Lampa, например:
 
 ```text
-http://192.168.1.25:8787/rt.js
+http://192.168.1.25:8787/plugin.php
 ```
 
 Добавьте этот адрес в настройках плагинов Lampa. Окно `start.bat` не закрывайте, пока смотрите видео.
@@ -68,7 +68,7 @@ launchers/macos/start.command
 После запуска в окне появятся адреса для Lampa, например:
 
 ```text
-http://192.168.1.25:8787/rt.js
+http://192.168.1.25:8787/plugin.php
 ```
 
 Добавьте этот адрес в настройках плагинов Lampa. Окно `start.command` не закрывайте, пока смотрите видео.
@@ -137,7 +137,7 @@ launchers\uninstallers\windows\uninstall-php.bat
 Пример адреса:
 
 ```text
-http://your-domain.example:8787/rt.js
+http://your-domain.example:8787/plugin.php
 ```
 
 ## Размещение на сервере или виртуалке
@@ -153,7 +153,7 @@ http://your-domain.example:8787/rt.js
 После размещения адрес для Lampa будет примерно таким:
 
 ```text
-https://your-domain.example/rt.js
+https://your-domain.example/plugin.php
 ```
 
 Подробности по размещению лежат в [server/README.md](server/README.md).
@@ -167,7 +167,8 @@ https://your-domain.example/rt.js
 - `launchers/macos/setup-php.command` - установка PHP через Homebrew на macOS.
 - `launchers/macos/check-install-progress.command` - проверка, идет ли установка Homebrew или Xcode Command Line Tools.
 - `launchers/uninstallers/` - скрипты удаления установленного PHP и Homebrew.
-- `server/rt.js` - код плагина Lampa и явный файл для подключения.
+- `server/plugin.php` - рекомендуемый файл для подключения в Lampa.
+- `server/rt.js` - код плагина Lampa, который отдает `plugin.php`.
 - `server/proxy.php` - поиск RUTUBE через сервер.
 - `server/stream.php` - получение HLS-ссылки.
 - `server/hls.php` - прокси для HLS-плейлистов и сегментов.
