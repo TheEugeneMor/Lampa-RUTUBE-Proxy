@@ -162,6 +162,7 @@ https://your-domain.example/rt.php
 
 - `server/` - серверная часть плагина.
 - `launchers/windows/start.bat` - запуск на Windows.
+- `launchers/windows/start.ps1` - основной PowerShell-запускатель для Windows.
 - `launchers/windows/setup-php.ps1` - установка portable PHP для Windows.
 - `launchers/macos/start.command` - запуск на macOS.
 - `launchers/macos/setup-php.command` - установка PHP через Homebrew на macOS.
