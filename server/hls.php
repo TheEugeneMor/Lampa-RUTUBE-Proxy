@@ -163,8 +163,21 @@ function rewrite_playlist(string $body, string $baseUrl): string
     foreach ($lines as $line) {
         $trim = trim((string)$line);
 
-        if ($trim === '' || strpos($trim, '#') === 0) {
+        if ($trim === '') {
             $result[] = $line;
+            continue;
+        }
+
+        if (strpos($trim, '#') === 0) {
+            $result[] = preg_replace_callback('/URI="([^"]+)"/', function (array $match) use ($baseUrl): string {
+                $absolute = absolutize_url($baseUrl, $match[1]);
+
+                if (!allowed_hls_url($absolute)) {
+                    return $match[0];
+                }
+
+                return 'URI="' . proxied_url($absolute) . '"';
+            }, $line);
             continue;
         }
 

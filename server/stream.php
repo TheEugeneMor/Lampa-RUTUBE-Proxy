@@ -129,7 +129,7 @@ if (!$allowed || $stream === '') {
 echo json_encode([
     'ok' => true,
     'id' => $id,
-    'url' => public_hls_url($stream),
-    'source_url' => $stream,
+    'url' => $stream,
+    'proxy_url' => public_hls_url($stream),
     'type' => 'hls',
 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
