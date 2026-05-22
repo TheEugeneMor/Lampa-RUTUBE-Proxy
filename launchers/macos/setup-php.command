@@ -36,9 +36,10 @@ ensure_homebrew() {
 
     cat <<'EOF'
 Homebrew не найден. Сейчас будет запущен официальный установщик Homebrew.
-Он может запросить пароль macOS.
+Он может запросить пароль macOS и установить Xcode Command Line Tools.
+Первый запуск может занять несколько минут.
 EOF
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     mkdir -p "$STATE_DIR"
     touch "$HOMEBREW_MARKER"
 
