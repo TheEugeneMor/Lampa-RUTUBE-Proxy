@@ -128,4 +128,4 @@ echo "Важно: не закрывайте это окно, пока смотр
 echo "Чтобы остановить сервер, закройте окно или нажмите Ctrl+C."
 echo
 
-"$PHP_EXE" -S "0.0.0.0:$PORT" -t "$SERVER_DIR" "$SERVER_DIR/router.php"
+"$PHP_EXE" -S "0.0.0.0:$PORT" -t "$SERVER_DIR" "$SERVER_DIR/router.php" 2>/dev/null
