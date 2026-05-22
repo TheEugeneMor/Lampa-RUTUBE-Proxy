@@ -2,69 +2,73 @@
 
 Автор: Eugene Pchelnikov. Связь в Telegram: [@eugenemor](https://t.me/eugenemor).
 
-Эта папка - серверная часть плагина. Ее можно положить в document root любой виртуалки/хостинга, где уже есть веб-сервер с PHP.
+Эта папка - серверная часть плагина. Ее можно положить в корень сайта или в любой подкаталог, где веб-сервер выполняет PHP.
 
 ## Требования
 
-- PHP 8.1+.
+- PHP 8.1+ должен выполняться в каталоге с файлами плагина.
 - Желательно расширения `curl` и `openssl`.
-- Для Apache: включенные `mod_rewrite` и, желательно, `mod_headers`.
-- Для nginx: настроенный PHP-FPM.
 
 ## URL для Lampa
 
-После размещения папки добавьте в Lampa:
+Если файлы лежат в подкаталоге, добавьте в Lampa прямой URL файла `rt.js`:
+
+```text
+https://your-domain.example/your-plugin-dir/rt.js
+```
+
+Если файлы лежат в корне сайта, используйте:
 
 ```text
 https://your-domain.example/rt.js
 ```
 
+## Размещение
 
+Для работы достаточно прямого доступа к файлам:
 
-## Apache
+```text
+https://your-domain.example/your-plugin-dir/rt.js
+https://your-domain.example/your-plugin-dir/proxy.php
+https://your-domain.example/your-plugin-dir/stream.php
+https://your-domain.example/your-plugin-dir/hls.php
+```
 
-Для Apache уже есть `.htaccess`. Он делает:
+Файл `rt.js` сам определяет базовый адрес по своему URL. Поэтому при подключении `https://your-domain.example/your-plugin-dir/rt.js` запросы автоматически пойдут в тот же каталог: `proxy.php`, `stream.php` и `hls.php`.
 
-- `/` -> `status.php`
-- отсутствующие пути -> `router.php`
+Файл `index.php` нужен только для удобной проверки каталога плагина в браузере.
+
+Минимальный набор файлов для загрузки:
+
+```text
+index.php
+status.php
+rt.js
+proxy.php
+stream.php
+hls.php
+```
+
+Файл `router.php` нужен только для встроенного PHP-сервера из локальных запускателей. На обычный хостинг его можно не загружать, если вы используете прямые URL выше.
+
+Если внутри основного сайта уже есть свой конфиг веб-сервера, его трогать не нужно. Загрузите файлы плагина в любой доступный каталог и подключайте прямой URL `rt.js`.
+
+## Проверка
 
 Если главная страница открывается, а в Lampa в статусе 404, проверьте напрямую:
 
 ```text
-https://your-domain.example/proxy.php?q=test
-https://your-domain.example/stream.php?id=test
+https://your-domain.example/your-plugin-dir/
+https://your-domain.example/your-plugin-dir/rt.js
+https://your-domain.example/your-plugin-dir/proxy.php?q=test
+https://your-domain.example/your-plugin-dir/stream.php?id=test
 ```
 
-Первый адрес должен вернуть JSON. Второй должен вернуть JSON с ошибкой `Invalid video id` и HTTP 400. Если один из этих адресов отдает обычную страницу 404 хостинга, значит на сайте не включен PHP для этой папки или Apache не применяет `.htaccess`.
+- каталог плагина должен показать статусную страницу с адресом плагина;
+- `rt.js` должен показать JavaScript-код;
+- `proxy.php?q=test` должен вернуть JSON с результатами RUTUBE;
+- `stream.php?id=test` должен вернуть JSON с ошибкой `Invalid video id` и HTTP 400. Это нормально, потому что `test` - не настоящий RUTUBE id.
 
-## nginx
+Если `proxy.php` или `stream.php` отдают обычную страницу 404 хостинга, запрос не дошел до PHP-скрипта: в каталоге плагина не выполняется PHP или основной конфиг сайта перехватывает этот путь.
 
-Для nginx есть готовый файл:
-
-```text
-nginx-lampa-rutube.conf
-```
-
-Скопируйте содержимое папки `server` в document root сайта и подключите конфиг внутри блока `server { ... }`:
-
-```nginx
-include /path/to/server/nginx-lampa-rutube.conf;
-```
-
-Внутри `nginx-lampa-rutube.conf` проверьте строку `fastcgi_pass`. Путь зависит от вашей системы и версии PHP.
-
-## Проверка
-
-Откройте:
-
-```text
-https://your-domain.example/
-```
-
-Страница должна показать адрес плагина. Потом проверьте:
-
-```text
-https://your-domain.example/proxy.php?q=test
-```
-
-Должен вернуться JSON с результатами RUTUBE.
+Если `proxy.php?q=test` отдает 502, PHP работает, но хостинг не может сходить до RUTUBE или не хватает `curl`/`openssl`.

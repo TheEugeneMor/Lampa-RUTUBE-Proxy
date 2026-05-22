@@ -16,8 +16,26 @@
         var pluginContact = 'https://t.me/eugenemor';
         var componentName = 'lapma_rutube';
         var playerComponentName = 'lapma_rutube_player';
-        var currentScript = document.currentScript ? document.currentScript.src : '';
-        var baseUrl = currentScript ? currentScript.replace(/[^\/]+$/, '') : '/';
+        function pluginBaseUrl() {
+            var current = document.currentScript && document.currentScript.src ? document.currentScript.src : '';
+
+            if (!current) {
+                var scripts = document.getElementsByTagName('script');
+
+                for (var i = scripts.length - 1; i >= 0; i--) {
+                    var src = scripts[i].src || '';
+
+                    if (/\/rt\.js(?:[?#].*)?$/.test(src)) {
+                        current = src;
+                        break;
+                    }
+                }
+            }
+
+            return current ? current.replace(/[^\/]+(?:[?#].*)?$/, '') : './';
+        }
+
+        var baseUrl = pluginBaseUrl();
         var apiUrl = baseUrl + 'proxy.php';
         var streamUrl = baseUrl + 'stream.php';
 

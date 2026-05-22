@@ -147,7 +147,7 @@ http://your-domain.example:8787/rt.js
 Требования:
 
 - PHP 8.1+;
-- Apache или nginx;
+- любой веб-сервер, который выполняет PHP в каталоге плагина;
 - желательно расширения PHP `curl` и `openssl`.
 
 После размещения адрес для Lampa будет примерно таким:
@@ -156,7 +156,7 @@ http://your-domain.example:8787/rt.js
 https://your-domain.example/rt.js
 ```
 
-Подробности для Apache и nginx лежат в [server/README.md](server/README.md).
+Подробности по размещению лежат в [server/README.md](server/README.md).
 
 ## Что где лежит
 
