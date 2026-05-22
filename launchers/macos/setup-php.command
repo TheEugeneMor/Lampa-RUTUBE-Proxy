@@ -22,24 +22,50 @@ ensure_brew_path() {
 
     if [ -x /opt/homebrew/bin/brew ]; then
         eval "$(/opt/homebrew/bin/brew shellenv)"
+        return 0
     elif [ -x /usr/local/bin/brew ]; then
         eval "$(/usr/local/bin/brew shellenv)"
+        return 0
     fi
+
+    return 1
 }
 
 ensure_homebrew() {
-    ensure_brew_path
+    ensure_brew_path || true
 
     if command -v brew >/dev/null 2>&1; then
         return 0
     fi
 
+    if ! id -Gn | tr ' ' '\n' | grep -qx 'admin'; then
+        cat <<'EOF'
+Homebrew не найден, а текущий пользователь macOS не состоит в группе admin.
+
+Автоматическая установка Homebrew и Xcode Command Line Tools требует прав администратора.
+Варианты:
+
+1. Войдите под пользователем-администратором и запустите start.command еще раз.
+2. Добавьте текущего пользователя в администраторы macOS.
+3. Установите PHP 8.1+ другим способом и запустите start.command снова.
+EOF
+        return 1
+    fi
+
     cat <<'EOF'
 Homebrew не найден. Сейчас будет запущен официальный установщик Homebrew.
 Он может запросить пароль macOS и установить Xcode Command Line Tools.
+Если установщик попросит нажать Enter, нажмите Enter для продолжения.
 Первый запуск может занять несколько минут.
+
+Если установка долго висит на скачивании Command Line Tools, откройте во втором окне:
+  launchers/macos/check-install-progress.command
 EOF
-    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    if ! /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; then
+        return 1
+    fi
+
     mkdir -p "$STATE_DIR"
     touch "$HOMEBREW_MARKER"
 

@@ -53,7 +53,15 @@ launchers/macos/start.command
 
 Если PHP 8.1+ не найден, запускатель сам поставит его через Homebrew. Если Homebrew тоже не установлен, будет запущен официальный установщик Homebrew.
 
-Первый запуск на macOS может занять несколько минут: система может попросить пароль и скачать Xcode Command Line Tools. Это нормально.
+Первый запуск на macOS может занять несколько минут: система может попросить пароль, попросить нажать Enter и скачать Xcode Command Line Tools. Это нормально. Для автоматической установки Homebrew пользователь macOS должен быть администратором.
+
+Если установка долго стоит на строке `Downloading Command Line Tools`, можно открыть во втором окне:
+
+```bash
+./launchers/macos/check-install-progress.command
+```
+
+Он покажет процессы установки, последние сообщения системного лога и размер папки `/Library/Updates`.
 
 После запуска в окне появятся адреса для Lampa, например:
 
@@ -161,6 +169,7 @@ https://your-domain.example/plugin.php
 - `launchers/windows/setup-php.ps1` - установка portable PHP для Windows.
 - `launchers/macos/start.command` - запуск на macOS.
 - `launchers/macos/setup-php.command` - установка PHP через Homebrew на macOS.
+- `launchers/macos/check-install-progress.command` - проверка, идет ли установка Homebrew или Xcode Command Line Tools.
 - `launchers/uninstallers/` - скрипты удаления установленного PHP и Homebrew.
 - `server/plugin.js` - код плагина Lampa.
 - `server/proxy.php` - поиск RUTUBE через сервер.
