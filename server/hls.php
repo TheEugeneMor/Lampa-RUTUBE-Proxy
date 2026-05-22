@@ -146,7 +146,7 @@ function fetch_hls_url(string $url): array
 
 function proxied_url(string $url): string
 {
-    return public_base_url() . 'hls-proxy.m3u8?url=' . rawurlencode(base64url_encode_string($url));
+    return public_base_url() . 'hls.php?url=' . rawurlencode(base64url_encode_string($url));
 }
 
 function rewrite_playlist(string $body, string $baseUrl): string

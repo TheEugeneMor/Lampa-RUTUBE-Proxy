@@ -118,7 +118,7 @@ if (!$allowed || $stream === '') {
 echo json_encode([
     'ok' => true,
     'id' => $id,
-    'url' => public_base_url() . 'hls-proxy.m3u8?url=' . rawurlencode(base64url_encode_string($stream)),
+    'url' => public_base_url() . 'hls.php?url=' . rawurlencode(base64url_encode_string($stream)),
     'source_url' => $stream,
     'type' => 'hls',
 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);

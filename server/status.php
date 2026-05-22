@@ -3,10 +3,19 @@ declare(strict_types=1);
 
 function status_base_url(): string
 {
-    $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-    $host = (string)($_SERVER['HTTP_HOST'] ?? 'localhost:8787');
+    $scheme = 'http';
 
-    return $scheme . '://' . $host . '/';
+    if (
+        (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower((string)$_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https')
+    ) {
+        $scheme = 'https';
+    }
+
+    $host = (string)($_SERVER['HTTP_HOST'] ?? 'localhost:8787');
+    $path = rtrim(str_replace('\\', '/', dirname((string)($_SERVER['SCRIPT_NAME'] ?? '/'))), '/');
+
+    return $scheme . '://' . $host . ($path === '' ? '' : $path) . '/';
 }
 
 $baseUrl = status_base_url();

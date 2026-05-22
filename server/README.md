@@ -19,18 +19,12 @@
 https://your-domain.example/rt.js
 ```
 
-Если rewrite-правила не настроены, можно использовать прямой PHP URL:
 
-```text
-https://your-domain.example/plugin.php
-```
 
 ## Apache
 
 Для Apache уже есть `.htaccess`. Он делает:
 
-- `/rt.js` -> `plugin.php`
-- `/hls-proxy.m3u8` -> `hls.php`
 - `/` -> `status.php`
 
 ## nginx

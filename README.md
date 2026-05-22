@@ -156,12 +156,6 @@ http://your-domain.example:8787/rt.js
 https://your-domain.example/rt.js
 ```
 
-Если красивые URL не настроены, можно использовать прямой путь:
-
-```text
-https://your-domain.example/plugin.php
-```
-
 Подробности для Apache и nginx лежат в [server/README.md](server/README.md).
 
 ## Что где лежит
@@ -173,7 +167,7 @@ https://your-domain.example/plugin.php
 - `launchers/macos/setup-php.command` - установка PHP через Homebrew на macOS.
 - `launchers/macos/check-install-progress.command` - проверка, идет ли установка Homebrew или Xcode Command Line Tools.
 - `launchers/uninstallers/` - скрипты удаления установленного PHP и Homebrew.
-- `server/plugin.js` - код плагина Lampa.
+- `server/rt.js` - код плагина Lampa и явный файл для подключения.
 - `server/proxy.php` - поиск RUTUBE через сервер.
 - `server/stream.php` - получение HLS-ссылки.
 - `server/hls.php` - прокси для HLS-плейлистов и сегментов.

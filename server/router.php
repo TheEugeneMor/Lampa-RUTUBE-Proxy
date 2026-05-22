@@ -5,11 +5,8 @@ $path = parse_url((string)($_SERVER['REQUEST_URI'] ?? '/'), PHP_URL_PATH);
 $path = '/' . ltrim((string)$path, '/');
 
 $routes = [
-    '/rt.js' => __DIR__ . '/plugin.php',
-    '/plugin.js' => __DIR__ . '/plugin.php',
     '/proxy.php' => __DIR__ . '/proxy.php',
     '/stream.php' => __DIR__ . '/stream.php',
-    '/hls-proxy.m3u8' => __DIR__ . '/hls.php',
     '/hls.php' => __DIR__ . '/hls.php',
 ];
 
